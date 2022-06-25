@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>state-2</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+
+    const App = () => {
+      const [amount, setAmount] = React.useState(0);    // [현재값, 수정해주는 함수]
+      const [inverted, setInverted] = React.useState(false);
+
+      const onChange = (event) => {
+        setAmount(event.target.value)
+      }
+
+      const reset = () => {
+        setAmount(0);
+      }
+
+      const onFlip = () => {
+        reset();
+        setInverted((current) => !current);
+      }
+
+      return (
+      <>
+        <div>
+              <label htmlFor="minutes">minutes</label>
+              <input 
+                  value={inverted ? amount * 60 : amount}
+                  id="minutes"
+                  placeholder="minutes"
+                  type="number"
+                  onChange={onChange}
+                  disabled = {inverted}
+              />
+          </div>
+          <div>
+              <label htmlFor="Hours">Hours</label>
+              <input 
+                  value={inverted ?  amount : Math.round(amount / 60)}
+                  id="Hours"
+                  placeholder="Hours"
+                  type="number"
+                  onChange={onChange}
+                  disabled = {!inverted}
+              />
+          </div>
+          <button onClick={reset}>reset</button>
+          <button onClick={onFlip}>{inverted ? "trun back" : "flip"}</button>
+        </>
+      );
+    };
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
